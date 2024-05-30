@@ -1,0 +1,40 @@
+
+void setup() {
+    Serial.begin(9600);
+    pinMode(PIR_SENSOR_PIN, INPUT);
+    pinMode(REED_SWITCH_PIN, INPUT_PULLUP);
+    pinMode(BUZZER_PIN, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
+    
+    digitalWrite(BUZZER_PIN, LOW);
+    digitalWrite(LED_PIN, LOW);
+}
+
+void loop() {
+    int pirState = digitalRead(PIR_SENSOR_PIN);
+    int reedSwitchState = digitalRead(REED_SWITCH_PIN);
+    
+        if (pirState == HIGH) {
+        Serial.println("Motion detected!");
+        triggerAlarm();
+    } else {
+        Serial.println("No motion.");
+    }
+   
+    if (reedSwitchState == LOW) {
+        Serial.println("Door opened!");
+        triggerAlarm();
+    } else {
+        Serial.println("Door closed.");
+    }
+    
+    delay(1000);
+}
+
+void triggerAlarm() {
+    digitalWrite(BUZZER_PIN, HIGH);
+    digitalWrite(LED_PIN, HIGH);
+    delay(5000); 
+    digitalWrite(BUZZER_PIN, LOW);
+    digitalWrite(LED_PIN, LOW);
+}
